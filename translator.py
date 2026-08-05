@@ -1,16 +1,18 @@
-number = int(input("Введите число от 1 до 5: "))
+number_to_word = {
+    1: "One",
+    2: "Two",
+    3: "Three",
+    4: "Four",
+    5: "Five"
+}
 
-if number == 1:
-    word = "One"
-elif number == 2:
-    word = "Two"
-elif number == 3:
-    word = "Three"
-elif number == 4:
-    word = "Four"
-elif number == 5:
-    word = "Five"
+try:
+    number = int(input("Введите число от 1 до 5: "))
+except ValueError:
+    print("Ошибка: введите целое число")
+    exit()
+
+if 1 <= number <= 5:
+    print(f"Соответствующее слово: {number_to_word[number]}")
 else:
-    word = "Число должно быть от 1 до 5"
-
-print("Соответствующее слово:", word)
+    print("Ошибка: число должно быть от 1 до 5")
