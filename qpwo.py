@@ -1,41 +1,50 @@
-sum_even = 0
-for i in range(1, 101):
-    if i % 2 == 0:
-        sum_even += i
+def calculate_sum_even():
+    return sum(range(2, 101, 2))
 
-print(f"Сумма чётных чисел от 1 до 100: {sum_even}")
 
-sum_even = 0
-for i in range(2, 101, 2):
-    sum_even += i
-# -------------------------------------------------------
-odd_squares = [i ** 2 for i in range(1, 11) if i % 2 != 0]
+def get_odd_squares():
+    return [i ** 2 for i in range(1, 11, 2)]
 
-print(f"Квадраты нечётных чисел от 1 до 10: {odd_squares}")
 
-count = 0
-# --------------------------------------------------------
-numbers = []
+def collect_numbers():
+    numbers = []
+    print("Введите числа. Для завершения введите отрицательное число.")
 
-print("Введите числа. Для завершения введите отрицательное число.")
+    while True:
+        try:
+            user_input = float(input("Введите число: "))
 
-while True:
-    try:
-        user_input = float(input("Введите число: "))
+            if user_input < 0:
+                print("Введено отрицательное число. Программа завершена.")
+                break
 
-        if user_input < 0:
-            print(f"Введено отрицательное число. Программа завершена.")
-            break
+            numbers.append(user_input)
+            print(f"Введено чисел: {len(numbers)}")
 
-        count += 1
-        numbers.append(user_input)
-        print(f"Введено чисел: {count}")
+        except ValueError:
+            print("Ошибка: нужно ввести число. Попробуйте снова.")
 
-    except ValueError:
-        print("Ошибка: нужно ввести число. Попробуйте снова.")
+    return numbers
 
-print(f"\nВсего введено чисел (без отрицательного): {count}")
-if numbers:
-    print(f"Введённые числа: {numbers}")
-    print(f"Сумма чисел: {sum(numbers)}")
-    print(f"Среднее арифметическое: {sum(numbers) / len(numbers):.2f}")
+
+def main():
+    sum_even = calculate_sum_even()
+    print(f"Сумма чётных чисел от 1 до 100: {sum_even}")
+
+    odd_squares = get_odd_squares()
+    print(f"Квадраты нечётных чисел от 1 до 10: {odd_squares}")
+
+    numbers = collect_numbers()
+    count = len(numbers)
+
+    print(f"\nВсего введено чисел (без отрицательного): {count}")
+    if numbers:
+        total_sum = sum(numbers)
+        avg = total_sum / count
+        print(f"Введённые числа: {numbers}")
+        print(f"Сумма чисел: {total_sum}")
+        print(f"Среднее арифметическое: {avg:.2f}")
+
+
+if __name__ == "__main__":
+    main()
