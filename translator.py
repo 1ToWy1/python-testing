@@ -6,13 +6,15 @@ number_to_word = {
     5: "Five"
 }
 
-try:
-    number = int(input("Введите число от 1 до 5: "))
-except ValueError:
-    print("Ошибка: введите целое число")
-    exit()
+def get_word(number: int) -> str:
+    return number_to_word.get(number, "Ошибка: число должно быть от 1 до 5")
 
-if 1 <= number <= 5:
-    print(f"Соответствующее слово: {number_to_word[number]}")
-else:
-    print("Ошибка: число должно быть от 1 до 5")
+def main():
+    try:
+        number = int(input("Введите число от 1 до 5: "))
+        print(f"Соответствующее слово: {get_word(number)}")
+    except ValueError:
+        print("Ошибка: введите целое число")
+
+if __name__ == "__main__":
+    main()
