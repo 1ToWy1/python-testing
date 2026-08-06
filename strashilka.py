@@ -1,43 +1,46 @@
-text = input("Введите текст: ")
+def count_vowels(text):
+    vowels = "аеёиоуыэюя"
+    return sum(1 for char in text.lower() if char in vowels)
 
-text_lower = text.lower()
 
-vowels = "аеёиоуыэюя"
-vowel_count = 0
+def clean_and_split_text(text):
+    punctuation = ".,!?;:-—«»\"'()"
+    text_lower = text.lower()
+    for char in punctuation:
+        text_lower = text_lower.replace(char, " ")
+    return text_lower.split()
 
-for char in text_lower:
-    if char in vowels:
-        vowel_count += 1
 
-punctuation = ".,!?;:-—«»\"'()"
-cleaned_text = ""
+def find_longest_word(words):
+    if not words:
+        return ""
+    return max(words, key=len)
 
-for char in text_lower:
-    if char in punctuation:
-        cleaned_text += " "
-    else:
-        cleaned_text += char
 
-words = cleaned_text.split()
+def count_word_frequencies(words):
+    counts = {}
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+    return counts
 
-total_words = len(words)
-longest_word = ""
-word_counts = {}
 
-for word in words:
-    if len(word) > len(longest_word):
-        longest_word = word
+def main():
+    text = input("Введите текст: ")
 
-    if word in word_counts:
-        word_counts[word] += 1
-    else:
-        word_counts[word] = 1
+    vowel_count = count_vowels(text)
+    words = clean_and_split_text(text)
+    longest_word = find_longest_word(words)
+    word_counts = count_word_frequencies(words)
 
-print("\n--- Результаты ---")
-print("Количество слов:", total_words)
-print("Самое длинное слово:", longest_word)
-print("Количество гласных:", vowel_count)
+    print("\n--- Результаты ---")
+    print("Количество слов:", len(words))
+    print("Самое длинное слово:", longest_word)
+    print("Количество гласных:", vowel_count)
 
-print("\nСколько раз встречается каждое слово:")
-for word in word_counts:
-    print(word, ":", word_counts[word])
+    print("\nСколько раз встречается каждое слово:")
+    for word, count in word_counts.items():
+        print(f"{word} : {count}")
+
+
+if __name__ == "__main__":
+    main()
