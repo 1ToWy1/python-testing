@@ -1,3 +1,6 @@
+from itertools import zip_longest
+
+
 def sum_two_lists(list1, list2):
     if not isinstance(list1, list) or not isinstance(list2, list):
         raise TypeError("Оба аргумента должны быть списками.")
@@ -9,10 +12,8 @@ def sum_two_lists(list1, list2):
             )
 
     result = []
-    min_length = min(len(list1), len(list2))
-
-    for i in range(min_length):
-        result.append(list1[i] + list2[i])
+    for num1, num2 in zip_longest(list1, list2, fillvalue=0):
+        result.append(num1 + num2)
 
     return result
 
