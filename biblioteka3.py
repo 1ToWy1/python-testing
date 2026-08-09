@@ -15,9 +15,10 @@ library = {
 def book_list_view(lib):
     if not lib:
         print("Библиотека пуста")
-    else:
-        for book in lib.keys():
-            print(book)
+        return
+
+    for book in lib.keys():
+        print(book)
 
 
 def add_book(title, author, year):
@@ -50,15 +51,17 @@ def add_book(title, author, year):
                 "наличие": None
             }
             print(f"Информация о книге '{title}' обновлена")
-        else:
-            print("Операция отменена")
-    else:
-        library[title] = {
-            "автор": author,
-            "год издания": year,
-            "наличие": None
-        }
-        print(f"Книга '{title}' успешно добавлена")
+            return
+
+        print("Операция отменена")
+        return
+
+    library[title] = {
+        "автор": author,
+        "год издания": year,
+        "наличие": None
+    }
+    print(f"Книга '{title}' успешно добавлена")
 
 
 def remove_book(title):
@@ -68,8 +71,9 @@ def remove_book(title):
 
     title = title.strip()
 
-    if title in library:
-        del library[title]
-        print(f"Книга '{title}' успешно удалена")
-    else:
+    if title not in library:
         print(f"Ошибка: Книга '{title}' не найдена в библиотеке")
+        return
+
+    del library[title]
+    print(f"Книга '{title}' успешно удалена")
