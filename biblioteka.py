@@ -1,9 +1,10 @@
-def book_list_view(library):
-    if not library:
+def book_list_view(lib):
+    if not lib:
         print("Библиотека пуста")
-    else:
-        for book in library.keys():
-            print(book)
+        return
+
+    for book in lib.keys():
+        print(book)
 
 
 library = {
