@@ -3,7 +3,7 @@ def book_list_view(lib):
         print("Библиотека пуста")
         return
 
-    for book in lib.keys():
+    for book in lib:
         print(book)
 
 
