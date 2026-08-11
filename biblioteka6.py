@@ -3,55 +3,52 @@ def book_list_view(lib):
         print("Библиотека пуста")
         return
 
-    for book in lib.keys():
+    for book in lib:
         print(book)
 
 
 def add_book(lib, title, author, year):
-    if not title or not title.strip():
+    if not title.strip():
         print("Ошибка: Название книги не может быть пустым")
         return
 
-    if not author or not author.strip():
+    if not author.strip():
         print("Ошибка: Имя автора не может быть пустым")
         return
 
     try:
         year = int(year)
+        if not (0 <= year <= 2026):
+            print("Ошибка: Некорректный год издания")
+            return
     except ValueError:
         print("Ошибка: Год издания должен быть числом")
         return
 
-    if year < 0 or year > 2026:
-        print("Ошибка: Некорректный год издания")
-        return
+    title = title.strip()
+    status = None
+    action_text = "успешно добавлена"
 
     if title in lib:
         print(f"Книга '{title}' уже существует в библиотеке.")
-        choice = input("Хотите обновить информацию? (да/нет): ").lower()
-
-        if choice == "да":
-            lib[title] = {
-                "автор": author,
-                "год издания": year,
-                "наличие": None
-            }
-            print(f"Информация о книге '{title}' обновлена")
+        choice = input("Хотите обновить информацию? (да/нет): ").strip().lower()
+        if choice != "да":
+            print("Операция отменена")
             return
 
-        print("Операция отменена")
-        return
+        status = lib[title]["наличие"]
+        action_text = "обновлена"
 
     lib[title] = {
-        "автор": author,
+        "автор": author.strip(),
         "год издания": year,
-        "наличие": None
+        "наличие": status
     }
-    print(f"Книга '{title}' успешно добавлена")
+    print(f"Информация о книге '{title}' {action_text}")
 
 
 def remove_book(lib, title):
-    if not title or not title.strip():
+    if not title.strip():
         print("Ошибка: Название книги не может быть пустым")
         return
 
@@ -66,7 +63,7 @@ def remove_book(lib, title):
 
 
 def issue_book(lib, title):
-    if not title or not title.strip():
+    if not title.strip():
         print("Ошибка: Название книги не может быть пустым")
         return
 
@@ -81,7 +78,7 @@ def issue_book(lib, title):
 
 
 def return_book(lib, title):
-    if not title or not title.strip():
+    if not title.strip():
         print("Ошибка: Название книги не может быть пустым")
         return
 
@@ -96,7 +93,7 @@ def return_book(lib, title):
 
 
 def find_book(lib, title):
-    if not title or not title.strip():
+    if not title.strip():
         print("Ошибка: Название книги не может быть пустым")
         return
 
@@ -124,8 +121,36 @@ def find_book(lib, title):
     print(f"  Статус: {status_text}")
 
 
+# Вспомогательные функции для обработки пользовательского ввода в меню
+def handle_add_book(lib):
+    t = input("Введите название книги: ")
+    a = input("Введите автора: ")
+    y = input("Введите год издания: ")
+    add_book(lib, t, a, y)
+
+
+def handle_remove_book(lib):
+    t = input("Введите название книги для удаления: ")
+    remove_book(lib, t)
+
+
+def handle_issue_book(lib):
+    t = input("Введите название книги для выдачи: ")
+    issue_book(lib, t)
+
+
+def handle_return_book(lib):
+    t = input("Введите название книги для возврата: ")
+    return_book(lib, t)
+
+
+def handle_find_book(lib):
+    t = input("Введите название книги для поиска: ")
+    find_book(lib, t)
+
+
 def main_menu():
-    menu_options = {
+    menu_titles = {
         "1": "Просмотреть список книг",
         "2": "Добавить книгу",
         "3": "Удалить книгу",
@@ -135,35 +160,30 @@ def main_menu():
         "0": "Выход"
     }
 
+    # Dispatch Table: диспетчеризация вызова функций через словарь вместо if/elif
+    actions = {
+        "1": book_list_view,
+        "2": handle_add_book,
+        "3": handle_remove_book,
+        "4": handle_issue_book,
+        "5": handle_return_book,
+        "6": handle_find_book
+    }
+
     while True:
         print("\n--- Главное меню ---")
-        for key, value in menu_options.items():
-            print(f"{key}. {value}")
+        for key, title in menu_titles.items():
+            print(f"{key}. {title}")
 
         choice = input("Выберите действие: ").strip()
 
-        if choice == "1":
-            book_list_view(library)
-        elif choice == "2":
-            t = input("Введите название книги: ")
-            a = input("Введите автора: ")
-            y = input("Введите год издания: ")
-            add_book(library, t, a, y)
-        elif choice == "3":
-            t = input("Введите название книги для удаления: ")
-            remove_book(library, t)
-        elif choice == "4":
-            t = input("Введите название книги для выдачи: ")
-            issue_book(library, t)
-        elif choice == "5":
-            t = input("Введите название книги для возврата: ")
-            return_book(library, t)
-        elif choice == "6":
-            t = input("Введите название книги для поиска: ")
-            find_book(library, t)
-        elif choice == "0":
+        if choice == "0":
             print("До свидания!")
             break
+
+        action = actions.get(choice)
+        if action:
+            action(library)
         else:
             print("Некорректный ввод, попробуйте снова.")
 
@@ -180,6 +200,7 @@ library = {
         "наличие": None
     }
 }
+
 
 if __name__ == "__main__":
     main_menu()
