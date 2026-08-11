@@ -1,25 +1,17 @@
-from itertools import zip_longest
-
-
 def sum_two_lists(list1, list2):
-    if not isinstance(list1, list) or not isinstance(list2, list):
-        raise TypeError("Оба аргумента должны быть списками.")
-
-    for item in list1 + list2:
-        if not isinstance(item, (int, float)):
-            raise TypeError(
-                f"Все элементы списков должны быть числами. Найден элемент: {item} ({type(item).__name__})"
-            )
-
     result = []
-    for num1, num2 in zip_longest(list1, list2, fillvalue=0):
-        result.append(num1 + num2)
+    max_length = max(len(list1), len(list2))
+
+    for i in range(max_length):
+        val1 = list1[i] if i < len(list1) else 0
+        val2 = list2[i] if i < len(list2) else 0
+        result.append(val1 + val2)
 
     return result
 
 
-numbers1 = [1, 5, 8, 10, 3]
-numbers2 = [4, 2, 1]
+numbers_1 = [1, 5, 8, 10, 3]
+numbers_2 = [4, 2, 1]
 
-result_list = sum_two_lists(numbers1, numbers2)
+result_list = sum_two_lists(numbers_1, numbers_2)
 print("Результат сложения:", result_list)
