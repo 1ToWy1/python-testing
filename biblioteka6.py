@@ -73,6 +73,10 @@ def issue_book(lib, title):
         print(f"Ошибка: Книга '{title}' не найдена в библиотеке")
         return
 
+    if lib[title]["наличие"] is False:
+        print(f"Ошибка: Книга '{title}' уже выдана!")
+        return
+
     lib[title]["наличие"] = False
     print(f"Книга '{title}' выдана")
 
@@ -86,6 +90,10 @@ def return_book(lib, title):
 
     if title not in lib:
         print(f"Ошибка: Книга '{title}' не найдена в библиотеке")
+        return
+
+    if lib[title]["наличие"] is True or lib[title]["наличие"] == "в наличии":
+        print(f"Ошибка: Книга '{title}' уже находится в библиотеке!")
         return
 
     lib[title]["наличие"] = True
@@ -106,14 +114,13 @@ def find_book(lib, title):
     book_info = lib[title]
     status = book_info["наличие"]
 
-    if status is None:
-        status_text = "Книга в библиотеке, но ее статус не определен"
-    elif status is False:
-        status_text = "Книга выдана"
-    elif status is True:
-        status_text = "Книга доступна"
-    else:
-        status_text = str(status)
+    statuses = {
+        None: "Книга в библиотеке, но ее статус не определен",
+        False: "Книга выдана",
+        True: "Книга доступна"
+    }
+
+    status_text = statuses.get(status, str(status))
 
     print(f"Информация о книге '{title}':")
     print(f"  Автор: {book_info['автор']}")
@@ -121,7 +128,6 @@ def find_book(lib, title):
     print(f"  Статус: {status_text}")
 
 
-# Вспомогательные функции для обработки пользовательского ввода в меню
 def handle_add_book(lib):
     t = input("Введите название книги: ")
     a = input("Введите автора: ")
@@ -160,7 +166,6 @@ def main_menu():
         "0": "Выход"
     }
 
-    # Dispatch Table: диспетчеризация вызова функций через словарь вместо if/elif
     actions = {
         "1": book_list_view,
         "2": handle_add_book,
