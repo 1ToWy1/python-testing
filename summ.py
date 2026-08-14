@@ -1,11 +1,12 @@
 def sum_two_lists(list1, list2):
-    result = []
-    max_length = max(len(list1), len(list2))
+    min_len = min(len(list1), len(list2))
 
-    for i in range(max_length):
-        val1 = list1[i] if i < len(list1) else 0
-        val2 = list2[i] if i < len(list2) else 0
-        result.append(val1 + val2)
+    result = [list1[i] + list2[i] for i in range(min_len)]
+
+    if len(list1) > len(list2):
+        result.extend(list1[min_len:])
+    else:
+        result.extend(list2[min_len:])
 
     return result
 
