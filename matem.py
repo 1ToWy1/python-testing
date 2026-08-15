@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import math
+from math import pi
 
 
 class Shape(ABC):
@@ -22,7 +22,7 @@ class Circle(Shape):
         self.radius = radius
 
     def area(self) -> float:
-        return math.pi * (self.radius ** 2)
+        return pi * (self.radius ** 2)
 
 
 if __name__ == "__main__":
