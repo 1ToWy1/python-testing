@@ -156,41 +156,33 @@ def handle_find_book(lib):
 
 
 def main_menu():
-    menu_titles = {
-        "1": "Просмотреть список книг",
-        "2": "Добавить книгу",
-        "3": "Удалить книгу",
-        "4": "Выдать книгу",
-        "5": "Вернуть книгу",
-        "6": "Найти книгу",
-        "0": "Выход"
-    }
-
-    actions = {
-        "1": book_list_view,
-        "2": handle_add_book,
-        "3": handle_remove_book,
-        "4": handle_issue_book,
-        "5": handle_return_book,
-        "6": handle_find_book
+    menu = {
+        "1": ("Просмотреть список книг", book_list_view),
+        "2": ("Добавить книгу", handle_add_book),
+        "3": ("Удалить книгу", handle_remove_book),
+        "4": ("Выдать книгу", handle_issue_book),
+        "5": ("Вернуть книгу", handle_return_book),
+        "6": ("Найти книгу", handle_find_book),
+        "0": ("Выход", None)
     }
 
     while True:
         print("\n--- Главное меню ---")
-        for key, title in menu_titles.items():
+        for key, (title, _) in menu.items():
             print(f"{key}. {title}")
 
         choice = input("Выберите действие: ").strip()
+
+        if choice not in menu:
+            print("Некорректный ввод, попробуйте снова.")
+            continue
 
         if choice == "0":
             print("До свидания!")
             break
 
-        action = actions.get(choice)
-        if action:
-            action(library)
-        else:
-            print("Некорректный ввод, попробуйте снова.")
+        _, action = menu[choice]
+        action(library)
 
 
 library = {
