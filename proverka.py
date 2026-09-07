@@ -37,14 +37,14 @@ login_button.click()
 print(driver.current_url)
 get_url = driver.current_url
 url = 'https://www.saucedemo.com/inventory.html'
-assert url == get_url
+assert url == get_url, f"Ошибка: Ожидался URL '{url}', а получен '{get_url}'"
 print('Корректный URL')
 
 #Проверяем что находимся на странице каталога
 text_products = driver.find_element(By.XPATH, "//span[@class='title']")
 print(text_products.text)
 value_text_products = text_products.text
-assert value_text_products == 'Products'
+assert value_text_products == 'Products', f"Ошибка: Ожидался заголовок 'Products', а получен '{value_text_products}'"
 print('Корректный заголовок')
 
 # Пауза для визуального контроля результата
