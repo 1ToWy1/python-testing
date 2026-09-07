@@ -17,6 +17,3 @@ driver.set_window_size(1920, 1080)
 # Поиск элемента по XPath и ввод логина
 user_name = driver.find_element(By.XPATH, "//input[@id='user-name']")
 user_name.send_keys("standard_user")
-
-# time.sleep(10)
-# driver.close()
