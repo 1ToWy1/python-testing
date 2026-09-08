@@ -48,7 +48,14 @@ time.sleep(3)
 
 # Обновление страницы
 driver.refresh()
-print("Страница успешно обновлена")
+print("Запрос на обновление страницы отправлен")
+
+# Проверка перезагрузки: находим поле заново и проверяем, что атрибут value пуст
+user_name_input_after_refresh = driver.find_element(By.ID, "user-name")
+user_name_value = user_name_input_after_refresh.get_attribute("value")
+
+assert user_name_value == "", f"Ошибка: страница не обновилась, поле логина содержит значение '{user_name_value}'"
+print("Проверка пройдена: страница обновилась, поля ввода очистились")
 
 # Задержка после обновления для визуального контроля (5 секунд)
 time.sleep(5)
