@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-
 # настройка параметров браузера chrome
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
@@ -21,7 +20,6 @@ prefs = {
 
 options.add_experimental_option("prefs", prefs)
 options.add_experimental_option("detach", True)
-
 
 # инициализация веб-драйвера
 driver = webdriver.Chrome(
@@ -41,8 +39,7 @@ driver.get(base_url)
 
 # создание экземпляра класса ActionChains
 action = ActionChains(driver)
-
-
+time.sleep(2)
 # поиск кнопки для двойного клика
 double_click_button = wait.until(
     EC.element_to_be_clickable((By.ID, "doubleClickBtn"))
@@ -51,16 +48,22 @@ double_click_button = wait.until(
 # выполнение двойного клика по кнопке
 action.double_click(double_click_button).perform()
 
-# ожидание сообщения после двойного клика
-double_click_message = wait.until(
-    EC.visibility_of_element_located((By.ID, "doubleClickMessage"))
+# ожидание текста сообщения после двойного клика
+wait.until(
+    EC.text_to_be_present_in_element(
+        (By.ID, "doubleClickMessage"),
+        "You have done a double click"
+    )
 )
 
 # проверка текста сообщения после двойного клика
-assert double_click_message.text == "You have done a double click"
+double_click_message = driver.find_element(
+    By.ID, "doubleClickMessage"
+)
+
+assert double_click_message.text == "You have done a double click", "ошибка.double_click"
 
 print('Произведен двойной клик')
-
 
 # поиск кнопки для правого клика
 right_click_button = wait.until(
@@ -70,18 +73,21 @@ right_click_button = wait.until(
 # выполнение правого клика по кнопке
 action.context_click(right_click_button).perform()
 
-# ожидание сообщения после правого клика
-right_click_message = wait.until(
-    EC.visibility_of_element_located((By.ID, "rightClickMessage"))
+# ожидание текста сообщения после правого клика
+wait.until(
+    EC.text_to_be_present_in_element(
+        (By.ID, "rightClickMessage"),
+        "You have done a right click"
+    )
 )
 
 # проверка текста сообщения после правого клика
-assert right_click_message.text == "You have done a right click"
+right_click_message = driver.find_element(
+    By.ID, "rightClickMessage"
+)
+
+assert right_click_message.text == "You have done a right click", "ошибка. right_click"
 
 print('Произведен правый клик')
-
-
-# небольшая задержка для отображения результата
-time.sleep(2)
 
 driver.quit()
