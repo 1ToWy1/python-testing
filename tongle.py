@@ -31,6 +31,7 @@ print(f"Значение после перемещения мышью: {slider_v
 
 assert slider_value.text == "4.5", f"Ожидалось 4.5, получено {slider_value.text}"
 
+time.sleep(3)
 
 # Второй сценарий — начинаем заново
 driver.refresh()
@@ -49,3 +50,7 @@ slider_value = wait.until(EC.presence_of_element_located((By.ID, "range")))
 print(f"Значение после 5 нажатий: {slider_value.text}")
 
 assert slider_value.text == "2.5", f"Ожидалось 2.5, получено {slider_value.text}"
+
+time.sleep(3)
+
+driver.quit()
