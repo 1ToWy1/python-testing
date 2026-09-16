@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 # Настройка Chrome
 options = webdriver.ChromeOptions()
@@ -31,5 +32,4 @@ assert selected_country.text == "India", "Страна India не выбрана
 
 print("Выбрана страна:", selected_country.text)
 
-# Закрытие браузера
-driver.quit()
+time.sleep(3)
