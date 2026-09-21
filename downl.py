@@ -22,20 +22,31 @@ driver = webdriver.Chrome(
     service=ChromeService(ChromeDriverManager().install())
 )
 
+# Переход на страницу
 base_url = "https://www.lambdatest.com/selenium-playground/download-file-demo"
 driver.get(base_url)
 driver.set_window_size(1920, 1080)
 
 # Находим кнопку Download File
-click_button = driver.find_element(By.XPATH, "//a[contains(text(), 'Download File')]")
+click_button = driver.find_element(
+    By.XPATH,
+    "//a[contains(text(), 'Download File')]"
+)
+
+# Нажимаем кнопку
 click_button.click()
+
+# Ждём загрузку файла
 time.sleep(3)
 
 # Название скачанного файла
 file_name = "LambdaTest.pdf"
 
 # Формируем полный путь к файлу
-file_path = path_download + file_name
+file_path = os.path.join(path_download, file_name)
+
+# Сообщение о начале проверки
+print("Начинаем проверку скачанного файла")
 
 # Проверяем, что файл существует
 assert os.access(file_path, os.F_OK) is True
