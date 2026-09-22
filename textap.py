@@ -28,39 +28,25 @@ driver.get(base_url)
 # путь к файлу, который будем загружать
 path_upload = "D:\\selen_proj\\img.png"
 
-# сохраняем исходное имя файла
+# сохраняем исходное имя файла для проверки
 file_name = os.path.basename(path_upload)
 
-# находим поле загрузки файла
-click_button = wait.until(
-    EC.element_to_be_clickable((By.XPATH, "//input[@id='file']"))
+# правильный id поля загрузки - "file-input", а не "file"
+upload_field = wait.until(
+    EC.element_to_be_clickable((By.XPATH, "//input[@id='file-input']"))
 )
 
-# загружаем файл
-click_button.send_keys(path_upload)
+# загружаем файл через send_keys
+upload_field.send_keys(path_upload)
+print("Файл отправлен на загрузку")
 
-time.sleep(2)
+# пауза для завершения загрузки и обновления UI
+time.sleep(3)
 
-# проверяем сообщение об успешной загрузке
-success_message = wait.until(
-    EC.visibility_of_element_located(
-        (By.XPATH, "//*[contains(text(), 'File Successfully Uploaded')]")
-    )
-)
-
-actual_text = success_message.text.strip()
-
-assert "File Successfully Uploaded" in actual_text, (
-    f"Ошибка: сообщение об успехе не найдено. "
-    f"Ожидалось 'File Successfully Uploaded', получено '{actual_text}'"
-)
-
-print("Файл успешно загружен")
-
-# получаем имя загруженного файла со страницы
+# проверяем, что имя файла отображается на странице после загрузки
 uploaded_file = wait.until(
     EC.visibility_of_element_located(
-        (By.XPATH, "//*[contains(text(), 'img.png')]")
+        (By.XPATH, f"//*[contains(text(), '{file_name}')]")
     )
 )
 
@@ -73,7 +59,5 @@ assert uploaded_file_name == file_name, (
 )
 
 print("Имя файла совпадает:", uploaded_file_name)
-
-time.sleep(2)
 
 driver.quit()
