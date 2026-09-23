@@ -19,7 +19,7 @@ driver = webdriver.Chrome(
 # явное ожидание
 wait = WebDriverWait(driver, 10)
 
-# переход на страницу с динамическими свойствами
+# переход на страницу
 base_url = 'https://demoqa.com/dynamic-properties'
 driver.get(base_url)
 
